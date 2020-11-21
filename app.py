@@ -66,7 +66,7 @@ def login():
             flash('Login success.')
             return redirect(url_for('index'))
 
-        flash('Invalid username or password')
+        flash('Invalid username or password.')
         return redirect(url_for('login'))
 
     return render_template('login.html')
@@ -92,7 +92,7 @@ def admin(username, password):
         user.username = username
         user.set_password(password)
     else:
-        click.echo('Creating user ...')
+        click.echo('Creating user...')
         user = User(username=username, name='Admin')
         user.set_password(password)
         db.session.add(user)
@@ -107,7 +107,7 @@ def initdb(drop):
     if drop:
         db.drop_all()
     db.create_all()
-    click.echo('Initialize database.')
+    click.echo('Initialized database.')
 
 
 @app.cli.command()
@@ -158,12 +158,12 @@ def index():
         title = request.form.get('title')
         year = request.form.get('year')
         if not title or not year or len(year) > 4 or len(title) > 60:
-            flash('Invalid input')
+            flash('Invalid input.')
             return redirect(url_for('index'))
         movie = Movie(title=title, year=year)
         db.session.add(movie)
         db.session.commit()
-        flash('Item created')
+        flash('Item created.')
         return redirect(url_for('index'))
 
     movies = Movie.query.all()
@@ -180,7 +180,7 @@ def edit(movie_id):
         year = request.form['year']
 
         if not title or not year or len(year) > 4 or len(title) > 60:
-            flash('Invalid input')
+            flash('Invalid input.')
             return redirect(url_for('edit', movie_id=movie_id))
 
         movie.title = title
