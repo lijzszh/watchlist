@@ -52,9 +52,21 @@ def forge():
     for m in movies:
         movie = Movie(title=m['title'], year=m['year'])
         db.session.add(movie)
-    
+
     db.session.commit()
     click.echo('Done.')
+
+
+@app.context_processor
+def inject_user():
+    user = User.query.first()
+    return dict(user=user)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    user = User.query.first()
+    return render_template('404.html'), 404
 
 
 @app.route('/')
